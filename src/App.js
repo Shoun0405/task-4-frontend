@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Route, Routes} from "react-router-dom";
+import LoginForm from "./components/LoginForm";
+import { useSelector } from "react-redux";
+import { selectIsLoginAuthToken } from "./store/reducer/authReducer";
+import UsersTable from "./components/UsersTable";
+import SignUpForm from "./components/SignUpForm";
 function App() {
+
+  const authToken = useSelector(selectIsLoginAuthToken)
+  console.log(authToken)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App ">
+
+      <Routes>
+
+      {!authToken && <Route path='/' element={<SignUpForm/>}/>}
+         <Route path='/login' element={<LoginForm/>}/>
+         
+        {authToken && <Route path="/user-list" element={<UsersTable/>} />}
+
+      </Routes>
+
+      {/* <LoginForm/>     */}
     </div>
   );
 }
